@@ -3,26 +3,23 @@ $(document).ready(function () {
     // Wrap all code that interacts with the DOM in a call to jQuery to ensure that 
     // the code isn't run until the browser has finished rendering all the elementsin the html.is $() the call to jquery?
     $(function () {
-        // TODO: Add a listener for click events on the save button. 
-        //This code should use the id in the containing time-block as a key to save the user input in
-        // local storage. 
-        //HINT: What does `this` reference in the click listener time-block containing the button that was clicked? How might the id be useful when saving the description in local storage?
-        //'this' needs to target the id of the parent element
-
-
-        let saveBtn = $(".saveBtn").parent();
-        let task = $("#myTextArea").val();//to get an element use #my+camelCase element name
-        $(".time-block").click("saveBtn", function () {
+        // let saveBtn = $(".saveBtn"). this was breaking the parentId variable
+        //to get an element use #my+camelCase element name
+        $(".saveBtn").click(function () {
             console.log("saveThis");//working (this.saveBtn is undefined, this.id adds nothing)
-
             let parentId = $(this).parent().attr("id");
-            console.log(parentId);//comes back undefined
-            $(".description").append("<p>" + this.task + "</p>");//how to get 'this' to be the hour id
-        })
-        // TODO: Add code to get any user input that was saved in localStorage and set
-        // the values of the corresponding textarea elements. HINT: How can the id
-        // attribute of each time-block be used to do this?
+            console.log(parentId);//comes back undefined if i make .saveBtn a variable. works fine as a class.
+            // $(".description").append("<p>" + task + "</p>"); should be uneccesary with the textarea element?
+            let description = $(".description");
+            description.innerhtml = localStorage.getItem(parentId.description);
 
+            $(function storeTasks() {
+                localStorage.setItem(parentId, description.val);
+                description = localStorage.getItem(parentId.description);
+                console.log(localStorage.getItem(parentId.description));
+                description.innerhtml = localStorage.getItem(parentId.description);
+            });
+        });
     });
 
     var today = dayjs();//displays the current time down to the second
